@@ -1,0 +1,74 @@
+.App {
+  text-align: center;
+}
+.navbar-dark{
+  background-color: lightslategrey;
+
+}
+.row-header{
+    margin:0px auto;
+    padding:0px auto;
+}
+.row-content {
+    margin:0px auto;
+    padding: 50px 0px 50px 0px;
+    border-bottom: 1px ridge;
+    min-height:400px;
+}
+.jumbotron {
+    padding:70px 30px 70px 30px;
+    margin:0px auto;
+    background: lightseagreen;
+    color:floralwhite;
+}
+.footer{
+    background-color:paleturquoise;
+    margin:0px auto;
+    padding: 20px 0px 20px 0px;
+}
+h6{
+  color: green;
+}
+address{
+    font-size:80%;
+    margin:0px;
+    color:#0f0f0f;
+}
+#aboutquote{
+   color: green;
+   font-weight: bolder;
+   font-style: italic;
+   font-size: xx-large;
+
+}
+#card{
+    color: indigo;
+
+}
+.page-enter {
+    opacity: 0.01;
+    transform: translateX(-100%);
+}
+
+.page-enter-active {
+    opacity: 1;
+    transform: translateX(0%);
+    transition: all 300ms ease-in;
+}
+
+.page-exit {
+    opacity: 1;
+    transform: translateX(0%);
+}
+
+.page-exit-active {
+    opacity: 0.01;
+    transform: translateX(100%);
+    transition: all 300ms ease-out;
+}
+
+
+
+
+
+
