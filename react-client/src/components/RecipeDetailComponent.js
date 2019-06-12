@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb,BreadcrumbItem, 
+import {Card, CardImg, CardText, CardBody, CardImgOverlay, Breadcrumb,BreadcrumbItem, 
     Button, Modal, ModalBody, ModalHeader, Col, Row, Label} from 'reactstrap';
 import {baseUrl} from '../shared/baseUrl';
 import {Link} from 'react-router-dom';
@@ -347,7 +347,8 @@ const RecipeDetail = (props) => {
                 </div>
                 <div className="row">
                     <div className="col-12 col-md-5 m-1">
-                        <RenderRecipe recipe={props.recipe}/>
+                        <RenderRecipe recipe={props.recipe} favorite={props.favorite}
+                         postFavorite={props.postFavorite}/>
                     </div>
                     <div className="col-12 col-md-5 m-1">
                         <RenderRecipeDetail recipe={props.recipe}/>
@@ -366,18 +367,27 @@ const RecipeDetail = (props) => {
     }
 }
 
-function RenderRecipe({recipe}){
+function RenderRecipe({recipe, favorite, postFavorite}){
     return(
         <FadeTransform
                 in
                 transformProps={{
                     exitTransform: 'scale(0.5) translateY(-50%)'
                 }}>
-        <Card>
-         <CardImg width="100%" src={baseUrl + recipe.image} alt={recipe.name} />
-         <CardBody>
-            <CardText>{recipe.description}</CardText>
-         </CardBody>
+         <Card >
+            <CardImg width="100%" src={baseUrl + recipe.image} alt={recipe.name} />
+            <CardImgOverlay>
+                <Button outline color="primary" onClick={() => favorite ? console.log('Already favorite') : postFavorite(recipe._id)}>
+                    {favorite ?
+                    <span className="fa fa-heart"></span>
+                    : 
+                    <span className="fa fa-heart-o"></span>
+                    }
+                </Button>
+            </CardImgOverlay>
+            <CardBody>
+                <CardText>{recipe.description}</CardText>
+            </CardBody>
        </Card>
     </FadeTransform>
     );  

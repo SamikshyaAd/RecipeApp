@@ -11,7 +11,7 @@ var User = new Schema({
     lastname : {
         type : String,
         default : ''
-    },
+    },  
     admin : {
         type : Boolean,
         default : false

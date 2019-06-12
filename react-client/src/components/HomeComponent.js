@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {baseUrl} from '../shared/baseUrl';
 import {Loading} from './LoadingComponent';
-import {Card, CardImg, CardImgOverlay, CardTitle, CardBody, Button, FormGroup, Label, Input, Col, Row} from 'reactstrap';
+import {Card, CardImg, CardImgOverlay, CardTitle, CardBody, Button, Label, Col, Row} from 'reactstrap';
 import {Control, Form} from 'react-redux-form';
 import {FadeTransform} from 'react-animation-components';
 

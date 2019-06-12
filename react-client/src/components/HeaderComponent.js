@@ -8,10 +8,12 @@ class Header extends Component{
        super(props);
        this.state={
            isNavOpen:false,
-           isModalOpen:false
+           isModalOpen:false,
+           isUserModalOpen:false
        }
        this.toggleNav=this.toggleNav.bind(this);
        this.toggleModal=this.toggleModal.bind(this);
+       this.toggleModalUser=this.toggleModalUser.bind(this);
        this.handleLogin=this.handleLogin.bind(this);
        this.handleLogout = this.handleLogout.bind(this);
     }
@@ -22,9 +24,18 @@ class Header extends Component{
         this.setState({isModalOpen:!this.state.isModalOpen});
 
     }
+    toggleModalUser(){
+        this.setState({isUserModalOpen:!this.state.isUserModalOpen});
+    }
     handleLogin(event){
         this.toggleModal();
         this.props.loginUser({username: this.username.value, password: this.password.value});
+        event.preventDefault();
+    }
+    handleRegister(event){
+        this.toggleModalUser();
+         this.props.registerUser({username: this.username.value, password: this.password.value,
+                                 firstname:this.firstname.value, lastname:this.lastname.value});
         event.preventDefault();
     }
      handleLogout() {
@@ -52,6 +63,11 @@ class Header extends Component{
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
+                                    <NavLink className="nav-link" to="/favorites">
+                                        <span className="fa fa-heart fa-lg"></span> My Favorites
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
                                     <NavLink className="nav-link" to="/aboutus">
                                         <span className="fa fa-info fa-lg"></span>About Us
                                     </NavLink>
@@ -65,13 +81,18 @@ class Header extends Component{
                             <Nav className="ml-auto" navbar>
                                 <NavItem>
                                     { !this.props.auth.isAuthenticated ?
-                                        <Button outline onClick={this.toggleModal}>
-                                            <span className="fa fa-sign-in fa-lg"></span> Login
-                                            {this.props.auth.isFetching ?
+                                        <div>
+                                            <Button outline onClick={this.toggleModal}>
+                                                <span className="fa fa-sign-in fa-lg"></span> Login
+                                                {this.props.auth.isFetching ?
                                                 <span className="fa fa-spinner fa-pulse fa-fw"></span>
                                                 : null
-                                            }
-                                        </Button>
+                                                }
+                                            </Button>
+                                            <Button outline onClick={this.toggleModalUser}>
+                                                <span className="fa fa-user fa-lg"></span> Sign Up
+                                            </Button>
+                                        </div>
                                         :
                                         <div>
                                             <div className="navbar-text mr-3">{this.props.auth.user.username}</div>
@@ -126,6 +147,35 @@ class Header extends Component{
                                 </Label>
                             </FormGroup>
                             <Button type="submit" value="submit" color="primary">Login</Button>
+                        </Form>
+                    </ModalBody>
+                </Modal>
+
+                <Modal isOpen={this.state.isUserModalOpen} toggle={this.toggleModalUser}>
+                    <ModalHeader toggle={this.toggleModalUser}>Register a new account</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={this.handleRegister}>
+                            <FormGroup>
+                                <Label htmlFor="username">Username</Label>
+                                    <Input type="text" id="username" name="username"
+                                    innerRef={(input)=> this.username=input}/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="password">Password</Label>
+                                    <Input type="password" id="password" name="password"
+                                    innerRef={(input)=> this.password=input}/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="firstname">First Name</Label>
+                                    <Input type="text" id="firstname" name="firstname"
+                                    innerRef={(input)=> this.firstname=input}/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="lastname">Last Name</Label>
+                                    <Input type="text" id="lastname" name="lastname"
+                                    innerRef={(input)=> this.lastname=input}/>
+                            </FormGroup>
+                            <Button type="submit" value="submit" color="primary">Register</Button>
                         </Form>
                     </ModalBody>
                 </Modal>

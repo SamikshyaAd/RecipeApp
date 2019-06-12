@@ -5,11 +5,13 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Recipe from './RecipeComponent';
 import RecipeDetail from './RecipeDetailComponent';
+import Favorites from './FavoriteComponent';
 import About from './AboutComponent';
 import Contact from './ContactComponent';
 import {connect} from 'react-redux';
 import {fetchRecipes, postFeedback, fetchFeedbacks, postRecipe, deleteRecipe, updateRecipe,
-     fetchFounders, postGeneralFeedback, fetchPromotions, loginUser, logoutUser} from '../redux/ActionCreator';
+       fetchFounders, postGeneralFeedback, fetchPromotions, loginUser, logoutUser, registerUser,
+       fetchFavorites, postFavorite, deleteFavorite} from '../redux/ActionCreator';
 import {actions} from 'react-redux-form';
 import {TransitionGroup, CSSTransition} from 'react-transition-group';
 
@@ -20,6 +22,7 @@ const mapStateToProps = state => {
         feedbacks :state.feedbacks,
         founders : state.founders,
         promotions : state.promotions,
+        favorites: state.favorites,
         auth: state.auth
     }
 }
@@ -38,7 +41,11 @@ resetFeedbackForm:()=>{dispatch(actions.reset('feedback'))},
 resetSearchForm:()=>{dispatch(actions.reset('searchform'))},
 fetchPromotions:() => {dispatch(fetchPromotions())},
 loginUser: (creds) => dispatch(loginUser(creds)),
-logoutUser: () => dispatch(logoutUser())
+logoutUser: () => dispatch(logoutUser()),
+registerUser: (creds) => dispatch(registerUser(creds)),
+fetchFavorites: () => dispatch(fetchFavorites()),
+postFavorite: (recipeId) => dispatch(postFavorite(recipeId)),
+deleteFavorite: (recipeId) => dispatch(deleteFavorite(recipeId))
 
 })
 class Main extends Component {
@@ -47,6 +54,7 @@ class Main extends Component {
     this.props.fetchFeedbacks();  
     this.props.fetchFounders();
     this.props.fetchPromotions();
+    this.props.fetchFavorites();
   }
     render(){
         const RecipeWithId =({match}) => {
@@ -63,6 +71,8 @@ class Main extends Component {
                     .filter((feedback) => feedback.recipe === match.params.recipeId)}
                     deleteRecipe={this.props.deleteRecipe}
                     updateRecipe={this.props.updateRecipe}
+                    favorite={this.props.favorites.favorites.recipes.some((recipe) => recipe._id === match.params.recipeId)}
+                    postFavorite={this.props.postFavorite}
                     />
                     :
                     <RecipeDetail recipe={this.props.recipes.recipes.
@@ -74,15 +84,30 @@ class Main extends Component {
                     .filter((feedback) => feedback.recipe === match.params.recipeId)}
                     deleteRecipe={this.props.deleteRecipe}
                     updateRecipe={this.props.updateRecipe}
+                    favorite={false}
+                    postFavorite={this.props.postFavorite}
                     />
             );
         }
+
+        const PrivateRoute = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+                this.props.auth.isAuthenticated
+                ? <Component {...props} />
+                : <Redirect to={{
+                    pathname: '/home',
+                    state: { from: props.location }
+                    }} />
+            )} />
+        );
+
         return(
             <div>
                 <Header
                     auth={this.props.auth} 
                     loginUser={this.props.loginUser} 
-                    logoutUser={this.props.logoutUser} />
+                    logoutUser={this.props.logoutUser} 
+                    registerUser={this.props.registerUser}/>
                     <TransitionGroup>
                     <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
                         <Switch>
@@ -91,6 +116,10 @@ class Main extends Component {
                         <Route exact path="/recipe" component={()=><Recipe recipes={this.props.recipes}
                         postRecipe={this.props.postRecipe}/>}/>
                         <Route  path="/recipe/:recipeId" component={RecipeWithId}/>}/>
+
+                        <PrivateRoute exact path="/favorites" component={() =>
+                             <Favorites favorites={this.props.favorites} deleteFavorite={this.props.deleteFavorite} />} />
+
                         <Route exact path="/contactus" component={()=><Contact
                             postGeneralFeedback={this.props.postGeneralFeedback}
                             resetFeedbackForm = {this.props.resetFeedbackForm}/>}/>

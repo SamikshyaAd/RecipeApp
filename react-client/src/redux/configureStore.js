@@ -4,6 +4,7 @@ import {Feedbacks} from './feedbacks';
 import {Founders} from './founders';
 import {Promotions} from './promotions';
 import { Auth } from './auth';
+import { favorites } from './favorites';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import {createForms} from 'react-redux-form';
@@ -19,6 +20,7 @@ export const ConfigureStore = () => {
             founders : Founders,
             promotions : Promotions,
             auth: Auth,
+            favorites,
             ...createForms({
                 feedback:InitialFeedback
             }) 
