@@ -11,7 +11,7 @@
   2) Go to `react-client` directory and run `npm install` on the command terminal. This will install `node_modules` (all dependencies specified in `package.json` file) for `react-client`.
   3) Create a folder named `mongoDB/data` in the directory where you have saved the `RecipeApp` project. `Note` this folder will save all the db data's.
 
-  ##### Database
+  #### Filling Database contents
    Create `Recipe` collection in mongoDB. 
    `Add` following documents:
         1. "recipes": [
