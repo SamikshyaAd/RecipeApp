@@ -71,7 +71,7 @@ class Main extends Component {
                     .filter((feedback) => feedback.recipe === match.params.recipeId)}
                     deleteRecipe={this.props.deleteRecipe}
                     updateRecipe={this.props.updateRecipe}
-                    favorite={this.props.favorites.favorites.recipes.some((recipe) => recipe._id === match.params.recipeId)}
+                    //favorite={this.props.favorites.favorites.recipes.some((recipe) => recipe._id === match.params.recipeId)}
                     postFavorite={this.props.postFavorite}
                     />
                     :
@@ -115,7 +115,7 @@ class Main extends Component {
                         resetFeedbackForm={this.props.resetFeedbackForm}/>}/>
                         <Route exact path="/recipe" component={()=><Recipe recipes={this.props.recipes}
                         postRecipe={this.props.postRecipe}/>}/>
-                        <Route  path="/recipe/:recipeId" component={RecipeWithId}/>}/>
+                        <Route  path="/recipe/:recipeId" component={RecipeWithId}/>
 
                         <PrivateRoute exact path="/favorites" component={() =>
                              <Favorites favorites={this.props.favorites} deleteFavorite={this.props.deleteFavorite} />} />
