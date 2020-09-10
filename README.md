@@ -1,5 +1,5 @@
 # RecipeApp
-   `RecipeApp` is a web application where end users from different part of the world can visit the app and learn to make delicious food that is posted in this website. Users can also post their own recipe along with its image. 
+   `RecipeApp` is a web application where end users from different part of the world can visit this application and learn to make delicious food following the recipe instructions that is posted in this website. Users can also post their own recipe along with its image. 
 
 ### Dependencies
 ##### Install 
